@@ -97,9 +97,9 @@ namespace LiH_Translation_Assistant
 
         private void ConvertTxt()
         {
-            Regex regex = new Regex("\"(.+)\" \\| \"(.+)\"", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex("\"(.+)\" \\| \"(.+)\"", RegexOptions.IgnoreCase);
             JObject json = new JObject();
-            foreach (Match m in regex.Matches(File.ReadAllText(inputTextBox.Text))) {
+            foreach (Match m in rgx.Matches(File.ReadAllText(inputTextBox.Text))) {
                 json.Add(new JProperty(m.Groups[1].Value, m.Groups[2].Value));
             }
             File.WriteAllText(outputTextBox.Text, json.ToString());
