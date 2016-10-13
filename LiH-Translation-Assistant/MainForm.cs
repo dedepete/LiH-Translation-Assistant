@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -61,7 +62,6 @@ namespace LiH_Translation_Assistant
         private void dropPanel_DragDrop(object sender, DragEventArgs e)
         {
             string[] file = (string[])e.Data.GetData(DataFormats.FileDrop);
-            Console.WriteLine(new FileInfo(file[0]).Extension);
             switch (new FileInfo(file[0]).Extension) {
                 case ".json":
                     radioButtonTxt.Checked = true;
@@ -89,7 +89,7 @@ namespace LiH_Translation_Assistant
         {
             JObject json = JObject.Parse(File.ReadAllText(inputTextBox.Text));
             string convertedText = null;
-            foreach (var jt in json) {
+            foreach (KeyValuePair<string, JToken> jt in json) {
                 convertedText += $"\"{jt.Key}\" | \"{jt.Value}\";\n";
             }
             File.WriteAllText(outputTextBox.Text, convertedText);
