@@ -84,20 +84,20 @@
             this.radioButtonJson.Checked = true;
             this.radioButtonJson.Location = new System.Drawing.Point(119, 4);
             this.radioButtonJson.Name = "radioButtonJson";
-            this.radioButtonJson.Size = new System.Drawing.Size(63, 17);
+            this.radioButtonJson.Size = new System.Drawing.Size(102, 17);
             this.radioButtonJson.TabIndex = 2;
             this.radioButtonJson.TabStop = true;
-            this.radioButtonJson.Text = "To .json";
+            this.radioButtonJson.Text = "From .txt to .json";
             this.radioButtonJson.UseVisualStyleBackColor = true;
             // 
             // radioButtonTxt
             // 
             this.radioButtonTxt.AutoSize = true;
-            this.radioButtonTxt.Location = new System.Drawing.Point(188, 4);
+            this.radioButtonTxt.Location = new System.Drawing.Point(222, 4);
             this.radioButtonTxt.Name = "radioButtonTxt";
-            this.radioButtonTxt.Size = new System.Drawing.Size(55, 17);
+            this.radioButtonTxt.Size = new System.Drawing.Size(102, 17);
             this.radioButtonTxt.TabIndex = 3;
-            this.radioButtonTxt.Text = "To .txt";
+            this.radioButtonTxt.Text = "From .json to .txt";
             this.radioButtonTxt.UseVisualStyleBackColor = true;
             // 
             // inputLabel
