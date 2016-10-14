@@ -100,7 +100,9 @@ namespace LiH_Translation_Assistant
             Regex rgx = new Regex("\"(.+)\" \\| \"(.+)\"", RegexOptions.IgnoreCase);
             JObject json = new JObject();
             foreach (Match m in rgx.Matches(File.ReadAllText(inputTextBox.Text))) {
-                json.Add(new JProperty(m.Groups[1].Value, m.Groups[2].Value));
+                if (json[m.Groups[1].Value] == null) {
+                    json.Add(new JProperty(m.Groups[1].Value, m.Groups[2].Value));
+                }
             }
             File.WriteAllText(outputTextBox.Text, json.ToString());
         }
