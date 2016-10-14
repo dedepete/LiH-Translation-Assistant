@@ -77,30 +77,33 @@ namespace LiH_Translation_Assistant
 
         private void convertButton_Click(object sender, EventArgs e)
         {
+            int totalStrings = 0;
             if (radioButtonJson.Checked) {
-                ConvertTxt();
+                ConvertTxt(ref totalStrings);
             } else {
-                ConvertJson();
+                ConvertJson(ref totalStrings);
             }
-            MessageBox.Show("Done!", "Done", MessageBoxButtons.OK);
+            MessageBox.Show($"Done!\nProcessed strings: {totalStrings}", "Done", MessageBoxButtons.OK);
         }
 
-        private void ConvertJson()
+        private void ConvertJson(ref int totalStrings)
         {
             JObject json = JObject.Parse(File.ReadAllText(inputTextBox.Text));
             string convertedText = null;
             foreach (KeyValuePair<string, JToken> jt in json) {
+                totalStrings++;
                 convertedText += $"\"{jt.Key}\" | \"{jt.Value}\";\n";
             }
             File.WriteAllText(outputTextBox.Text, convertedText);
         }
 
-        private void ConvertTxt()
+        private void ConvertTxt(ref int totalStrings)
         {
             Regex rgx = new Regex("\"(.+)\" \\| \"(.+)\"", RegexOptions.IgnoreCase);
             JObject json = new JObject();
             foreach (Match m in rgx.Matches(File.ReadAllText(inputTextBox.Text))) {
                 if (json[m.Groups[1].Value] == null) {
+                    totalStrings++;
                     json.Add(new JProperty(m.Groups[1].Value, m.Groups[2].Value));
                 }
             }
