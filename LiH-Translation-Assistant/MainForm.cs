@@ -14,7 +14,7 @@ namespace LiH_Translation_Assistant
             InitializeComponent();
         }
 
-        private string inputTextBoxText
+        private string InputTextBoxText
         {
             set {
                 if (string.IsNullOrWhiteSpace(value)) {
@@ -22,7 +22,7 @@ namespace LiH_Translation_Assistant
                 }
                 inputTextBox.Text = value;
                 string ext = radioButtonJson.Checked ? "json" : "txt";
-                outputTextBox.Text = $"{Path.GetDirectoryName(value)}\\{Path.GetFileNameWithoutExtension(value)}.{ext}";
+                outputTextBox.Text = $@"{Path.GetDirectoryName(value)}\{Path.GetFileNameWithoutExtension(value)}.{ext}";
             }
         }
 
@@ -39,7 +39,7 @@ namespace LiH_Translation_Assistant
                 Filter = radioButtonJson.Checked ? "Text file (*.txt)|*.txt" : "Json file (*.json)|*.json"
             };
             dialog.ShowDialog();
-            inputTextBoxText = dialog.FileName;
+            InputTextBoxText = dialog.FileName;
         }
 
         private void outputButton_Click(object sender, EventArgs e)
@@ -72,7 +72,8 @@ namespace LiH_Translation_Assistant
                 default:
                     return;
             }
-            inputTextBoxText = file[0];
+            Activate();
+            InputTextBoxText = file[0];
         }
 
         private void convertButton_Click(object sender, EventArgs e)
@@ -102,10 +103,11 @@ namespace LiH_Translation_Assistant
             Regex rgx = new Regex("\"(.+)\" \\| \"(.+)\"", RegexOptions.IgnoreCase);
             JObject json = new JObject();
             foreach (Match m in rgx.Matches(File.ReadAllText(inputTextBox.Text))) {
-                if (json[m.Groups[1].Value] == null) {
-                    totalStrings++;
-                    json.Add(new JProperty(m.Groups[1].Value, m.Groups[2].Value));
+                if (json[m.Groups[1].Value] != null) {
+                    continue;
                 }
+                totalStrings++;
+                json.Add(new JProperty(m.Groups[1].Value, m.Groups[2].Value));
             }
             File.WriteAllText(outputTextBox.Text, json.ToString());
         }
