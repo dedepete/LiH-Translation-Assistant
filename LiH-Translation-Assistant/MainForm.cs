@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -95,10 +94,7 @@ namespace LiH_Translation_Assistant
             Dictionary<string, string> dic =
                 JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(inputTextBox.Text));
             totalStrings = dic.Count;
-            string convertedText = dic.Aggregate(new StringBuilder(), 
-                                                 (strb, prop) => 
-                                                     strb.AppendFormat("\"{0}\" | \"{1}\";\n", prop.Key, prop.Value), 
-                                                 strb => strb.ToString());
+            string convertedText = string.Join(";\n", dic.Select(prop => $"\"{prop.Key}\" | \"{prop.Value}\""));
             File.WriteAllText(outputTextBox.Text, convertedText);
         }
 
