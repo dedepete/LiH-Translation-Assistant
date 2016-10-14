@@ -1,9 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace LiH_Translation_Assistant
 {
@@ -82,19 +85,20 @@ namespace LiH_Translation_Assistant
             if (radioButtonJson.Checked) {
                 ConvertTxt(ref totalStrings);
             } else {
-                ConvertJson(ref totalStrings);
+                ConvertJson(out totalStrings);
             }
             MessageBox.Show($"Done!\nProcessed strings: {totalStrings}", "Done", MessageBoxButtons.OK);
         }
 
-        private void ConvertJson(ref int totalStrings)
+        private void ConvertJson(out int totalStrings)
         {
-            JObject json = JObject.Parse(File.ReadAllText(inputTextBox.Text));
-            string convertedText = null;
-            foreach (KeyValuePair<string, JToken> jt in json) {
-                totalStrings++;
-                convertedText += $"\"{jt.Key}\" | \"{jt.Value}\";\n";
-            }
+            Dictionary<string, string> dic =
+                JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(inputTextBox.Text));
+            totalStrings = dic.Count;
+            string convertedText = dic.Aggregate(new StringBuilder(), 
+                                                 (strb, prop) => 
+                                                     strb.AppendFormat("\"{0}\" | \"{1}\";\n", prop.Key, prop.Value), 
+                                                 strb => strb.ToString());
             File.WriteAllText(outputTextBox.Text, convertedText);
         }
 
