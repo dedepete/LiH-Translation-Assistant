@@ -56,8 +56,18 @@ namespace LiH_Translation_Assistant
 
         private void dropPanel_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
-                e.Effect = DragDropEffects.Copy;
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) {
+                return;
+            }
+            string[] file = (string[])e.Data.GetData(DataFormats.FileDrop);
+            switch (new FileInfo(file[0]).Extension) {
+                case ".json":
+                case ".txt":
+                    e.Effect = DragDropEffects.Copy;
+                    return;
+                default:
+                    e.Effect = DragDropEffects.None;
+                    return;
             }
         }
 
