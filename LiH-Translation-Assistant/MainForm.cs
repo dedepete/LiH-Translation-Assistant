@@ -36,22 +36,30 @@ namespace LiH_Translation_Assistant
 
         private void inputButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog() {
+            OpenFileDialog dialog = new OpenFileDialog {
                 Multiselect = false,
                 Filter = radioButtonJson.Checked ? "Text file (*.txt)|*.txt" : "Json file (*.json)|*.json"
             };
+            if (!string.IsNullOrWhiteSpace(inputTextBox.Text)) {
+                dialog.InitialDirectory = new FileInfo(inputTextBox.Text).DirectoryName;
+                dialog.FileName = new FileInfo(inputTextBox.Text).Name;
+            }
+            dialog.FileOk += delegate { InputTextBoxText = dialog.FileName; };
             dialog.ShowDialog();
-            InputTextBoxText = dialog.FileName;
         }
 
         private void outputButton_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog() {
+            SaveFileDialog dialog = new SaveFileDialog {
                 OverwritePrompt = true,
                 Filter = radioButtonJson.Checked ? "Json file (*.json)|*.json" : "Text file (*.txt)|*.txt"
             };
+            if (!string.IsNullOrWhiteSpace(outputTextBox.Text)) {
+                dialog.InitialDirectory = new FileInfo(outputTextBox.Text).DirectoryName;
+                dialog.FileName = new FileInfo(outputTextBox.Text).Name;
+            }
+            dialog.FileOk += delegate { outputTextBox.Text = dialog.FileName; };
             dialog.ShowDialog();
-            outputTextBox.Text = dialog.FileName;
         }
 
         private void dropPanel_DragEnter(object sender, DragEventArgs e)
