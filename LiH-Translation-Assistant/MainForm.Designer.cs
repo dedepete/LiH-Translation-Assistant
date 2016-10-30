@@ -38,6 +38,7 @@
             this.outputButton = new System.Windows.Forms.Button();
             this.outputTextBox = new System.Windows.Forms.TextBox();
             this.outputLabel = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.Label();
             this.dropPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,6 +46,7 @@
             // 
             this.dropPanel.AllowDrop = true;
             this.dropPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dropPanel.Controls.Add(this.versionLabel);
             this.dropPanel.Controls.Add(this.dropLabel);
             this.dropPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.dropPanel.Location = new System.Drawing.Point(0, 0);
@@ -65,6 +67,8 @@
             this.dropLabel.TabIndex = 1;
             this.dropLabel.Tag = "0";
             this.dropLabel.Text = "Drop file here";
+            this.dropLabel.DragDrop += new System.Windows.Forms.DragEventHandler(this.dropPanel_DragDrop);
+            this.dropLabel.DragEnter += new System.Windows.Forms.DragEventHandler(this.dropPanel_DragEnter);
             // 
             // convertButton
             // 
@@ -154,6 +158,19 @@
             this.outputLabel.TabIndex = 8;
             this.outputLabel.Text = "Output file:";
             // 
+            // versionLabel
+            // 
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.Font = new System.Drawing.Font("Consolas", 7F, System.Drawing.FontStyle.Bold);
+            this.versionLabel.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.versionLabel.Location = new System.Drawing.Point(0, 0);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(160, 12);
+            this.versionLabel.TabIndex = 2;
+            this.versionLabel.Text = "%version3%_%branch%.%shorthash%";
+            this.versionLabel.DragDrop += new System.Windows.Forms.DragEventHandler(this.dropPanel_DragDrop);
+            this.versionLabel.DragEnter += new System.Windows.Forms.DragEventHandler(this.dropPanel_DragEnter);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,6 +211,7 @@
         private System.Windows.Forms.Button outputButton;
         private System.Windows.Forms.TextBox outputTextBox;
         private System.Windows.Forms.Label outputLabel;
+        private System.Windows.Forms.Label versionLabel;
     }
 }
 

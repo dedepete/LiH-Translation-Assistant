@@ -14,6 +14,7 @@ namespace LiH_Translation_Assistant
         public MainForm()
         {
             InitializeComponent();
+            versionLabel.Text = ProductVersion;
         }
 
         private string InputTextBoxText
